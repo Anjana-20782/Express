@@ -6,6 +6,7 @@ import searchRoute from "./routes/search.route.js";
 import statusRoute from "./routes/status.route.js";
 import errorRoute from "./routes/error.route.js";
 import postRoute from "./routes/post.route.js";
+import redirectRoute from "./routes/redirect.route.js"
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.use("/search",searchRoute)
 app.use("/status", statusRoute);
 app.use("/error", errorRoute); 
 app.use("/post", postRoute);  
+app.use("/old",redirectRoute);
 
 export default app;
