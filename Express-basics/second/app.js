@@ -1,6 +1,7 @@
 import express from "express";
 import calculatorRoute from "./routes/calculator.route.js";
 import formRoute from "./routes/form.route.js";
+import usersRoute from "./routes/users.route.js";
 
 const app = express();
 app.use(express.json());
@@ -10,5 +11,6 @@ app.use(express.static("public"));
 
 app.use("/calc", calculatorRoute); 
 app.use("/form", formRoute);  // /form.html
+app.use("/users", usersRoute); 
 
 export default app;
