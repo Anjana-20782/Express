@@ -1,47 +1,42 @@
 import express from "express";
 import User from "../models/User.model.js";
+import { protect } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-/* 23 – CREATE RECORD */
+/* CREATE USER (PUBLIC) */
 router.post("/", async (req, res, next) => {
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
   } catch (error) {
-    if (error.code === 11000) {                             //http://localhost:5050/users--post
-      return res.status(400).json({                         
-        error: "Email already exists"
-      });
+    if (error.code === 11000) {
+      return res.status(400).json({ error: "Email already exists" });
     }
     next(error);
   }
 });
 
-/* 24 – FIND BY ID */
-router.get("/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json(user);
-  } catch (error) {                                                         //http://localhost:5050/users/65b1c2e4f91a3c7d8a9b1234--get
-    res.status(500).json({ error: error.message });
-  }
+/* GET USER BY ID (PROTECTED) */
+router.get("/:id", protect, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.json(user);
 });
 
-// 25 – UPDATE USER BY ID
-router.put("/:id", async (req, res) => {
-  const user = await User.findByIdAndUpdate(          //http://localhost:5050/users/65b1c2e4f91a3c7d8a9b1234---put
+/* UPDATE USER (PROTECTED) */
+router.put("/:id", protect, async (req, res) => {
+  const user = await User.findByIdAndUpdate(
     req.params.id,
-    { email: req.body.email },                              
+    { email: req.body.email },
     { new: true }
   );
   res.json(user);
 });
 
-router.delete("/:id", async (req, res) => {
+/* DELETE USER (PROTECTED) */
+router.delete("/:id", protect, async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
-  res.json({ message: "User Deleted" });                    //{"message": "User Deleted"}
+  res.json({ message: "User Deleted" });
 });
-
 
 export default router;
