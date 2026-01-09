@@ -17,6 +17,34 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//34. pagination
+
+router.get("/", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const users = await User.find()
+      .skip(skip)
+      .limit(limit);
+
+    const totalUsers = await User.countDocuments();
+
+    res.json({
+      page,
+      limit,
+      totalUsers,
+      usersReturned: users.length,
+      users
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 /* GET USER BY ID (PROTECTED) */
 router.get("/:id", protect, async (req, res) => {
   const user = await User.findById(req.params.id);
