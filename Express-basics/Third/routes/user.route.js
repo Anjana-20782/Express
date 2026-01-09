@@ -10,7 +10,7 @@ router.post("/", async (req, res, next) => {
     res.status(201).json(user);
   } catch (error) {
     if (error.code === 11000) {                             //http://localhost:5050/users--post
-      return res.status(400).json({
+      return res.status(400).json({                         
         error: "Email already exists"
       });
     }
@@ -32,10 +32,15 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const user = await User.findByIdAndUpdate(          //http://localhost:5050/users/65b1c2e4f91a3c7d8a9b1234---put
     req.params.id,
-    { email: req.body.email },
+    { email: req.body.email },                              
     { new: true }
   );
   res.json(user);
+});
+
+router.delete("/:id", async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.json({ message: "User Deleted" });                    //{"message": "User Deleted"}
 });
 
 
