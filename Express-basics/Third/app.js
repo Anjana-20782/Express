@@ -13,5 +13,7 @@ app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 app.use("/users", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/uploads", express.static("uploads"));
+
 
 export default app;

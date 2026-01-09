@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/User.model.js";
 import { protect } from "../middlewares/auth.middleware.js";
+import upload  from "../uploads/upload.multer.js";
 
 const router = express.Router();
 
@@ -43,6 +44,19 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+//profile upload
+
+router.post(
+  "/upload",
+  upload.single("image"),
+  (req, res) => {
+    res.json({
+      message: "File uploaded successfully",
+      file: req.file
+    });
+  }
+);
 
 
 /* GET USER BY ID (PROTECTED) */
