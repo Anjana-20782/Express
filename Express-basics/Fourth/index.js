@@ -3,7 +3,6 @@ import connectDB from "./config/db.js";
 
 connectDB();
 
-const PORT = 5050;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(5050, () => {
+  console.log("Server running on http://localhost:5050");
 });
