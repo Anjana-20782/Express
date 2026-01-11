@@ -1,0 +1,6 @@
+[
+  { "name": "Product 1", "price": 101, "category": "tech" },
+  { "name": "Product 2", "price": 102, "category": "tech" },
+  { "name": "Product 3", "price": 103, "category": "food" },
+  { "name": "Product 4", "price": 104, "category": "fashion" }
+]

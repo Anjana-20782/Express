@@ -1,15 +1,25 @@
 import express from "express";
 import productRoutes from "./routes/product.route.js";
 import AppError from "./utils/AppError.js";
+import rateLimiter from "./middleware/rateLimiter.js";
+import helmet from "helmet";
+
 
 const app = express();
 
 app.use(express.json());
 
+// Security headers
+app.use(helmet());
+
+// rate limiting
+app.use(rateLimiter);
+
+
 // routes
 app.use("/api/products", productRoutes);
 
-// app error handleer
+// 404 handler
 app.use((req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl}`, 404));
 });
@@ -24,6 +34,5 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
-/* ------------------------------------------------ */
 
 export default app;
